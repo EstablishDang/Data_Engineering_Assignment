@@ -45,6 +45,7 @@ make
 ```
 
 4. AddNewVendor
+```
 curl --location --request POST 'http://localhost:20000/data_azure/v1/vendor' \
 --header 'Content-Type: text/plain' \
 --data-raw '{
@@ -52,3 +53,4 @@ curl --location --request POST 'http://localhost:20000/data_azure/v1/vendor' \
     "credit_rating":"2",
     "url_web":"nhom7.test.com"
 }'
+```
