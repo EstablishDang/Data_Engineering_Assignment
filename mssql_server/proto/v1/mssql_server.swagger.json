@@ -1,0 +1,242 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "HTTP REST API Service",
+    "version": "1.0"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/data_azure/v1/purchase_order_info/{id}": {
+      "get": {
+        "operationId": "AppMssqlMgmtService_GetPurchaseOrderInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/mssql_serverPurchaseOrderInfo"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "AppMssqlMgmtService"
+        ]
+      }
+    },
+    "/data_azure/v1/ship_method": {
+      "get": {
+        "operationId": "AppMssqlMgmtService_ListShipMethod",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/mssql_serverListShipMethodResp"
+            }
+          }
+        },
+        "tags": [
+          "AppMssqlMgmtService"
+        ]
+      }
+    },
+    "/data_azure/v1/vendor": {
+      "post": {
+        "operationId": "AppMssqlMgmtService_AddNewVendor",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/mssql_serverAddNewVendorReq"
+            }
+          }
+        ],
+        "tags": [
+          "AppMssqlMgmtService"
+        ]
+      }
+    },
+    "/data_azure/v1/vendors/{type}": {
+      "get": {
+        "operationId": "AppMssqlMgmtService_GetVendor",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/mssql_serverListVendorResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "AppMssqlMgmtService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "mssql_serverAddNewVendorReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "credit_rating": {
+          "type": "string"
+        },
+        "url_web": {
+          "type": "string"
+        }
+      }
+    },
+    "mssql_serverEmployee": {
+      "type": "object",
+      "properties": {
+        "JobTitle": {
+          "type": "string"
+        },
+        "Gender": {
+          "type": "string"
+        },
+        "DepartmentName": {
+          "type": "string"
+        },
+        "GroupName": {
+          "type": "string"
+        },
+        "Shift": {
+          "type": "string"
+        }
+      }
+    },
+    "mssql_serverListShipMethodResp": {
+      "type": "object",
+      "properties": {
+        "ship_method": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/mssql_serverShipMethod"
+          }
+        }
+      }
+    },
+    "mssql_serverListVendorResp": {
+      "type": "object",
+      "properties": {
+        "vendor_info": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/mssql_serverVendorInfo"
+          }
+        }
+      }
+    },
+    "mssql_serverPurchaseOrderInfo": {
+      "type": "object",
+      "properties": {
+        "employee_info": {
+          "$ref": "#/definitions/mssql_serverEmployee"
+        },
+        "vendor_info": {
+          "$ref": "#/definitions/mssql_serverVendorInfo"
+        },
+        "ship_method": {
+          "$ref": "#/definitions/mssql_serverShipMethod"
+        },
+        "Status": {
+          "type": "string"
+        },
+        "OrderDate": {
+          "type": "string"
+        },
+        "ShipDate": {
+          "type": "string"
+        },
+        "SubTotal": {
+          "type": "number",
+          "format": "float"
+        },
+        "TaxAmt": {
+          "type": "number",
+          "format": "float"
+        },
+        "Freight": {
+          "type": "number",
+          "format": "float"
+        },
+        "TotalDue": {
+          "type": "number",
+          "format": "float"
+        },
+        "ModifiedDate": {
+          "type": "string"
+        }
+      }
+    },
+    "mssql_serverShipMethod": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ship_base": {
+          "type": "number",
+          "format": "float"
+        },
+        "ship_rate": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "mssql_serverVendorInfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "acc_number": {
+          "type": "string"
+        },
+        "credit_rating": {
+          "type": "string"
+        },
+        "prefer_vendor": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

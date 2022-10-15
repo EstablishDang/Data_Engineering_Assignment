@@ -1,0 +1,23 @@
+[Unit]
+Description=proxmox_nw_config
+Wants=pve-cluster.service
+Wants=pvedaemon.service
+Wants=ssh.service
+Wants=pve-storage.target
+After=pve-storage.target
+After=pve-cluster.service
+After=pvedaemon.service
+After=network.target
+After=ssh.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+EnvironmentFile=/etc/environment
+ExecStart=/opt/c3/proxmox_network_config --start
+
+[Install]
+WantedBy=multi-user.target

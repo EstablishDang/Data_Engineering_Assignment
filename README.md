@@ -1,16 +1,9 @@
-# proxmox-network-configuration
-
-# Install dependence library
-```
-apt update
-apt install libpve-network-perl ifupdown2
-apt install openvswitch-switch
-```
+# app_mssql_server
 
 # Build binary
 1. Clone code from git:
 ```
-git clone https://gitlab.skylabteam.com/Skylab-STA/proxmox-network-configuration.git
+git clone https://github.com/EstablishDang/Data_Engineering_Assignment.git
 ```
 
 2. How to build:
@@ -18,24 +11,44 @@ git clone https://gitlab.skylabteam.com/Skylab-STA/proxmox-network-configuration
 make
 ```
 
-# How to deploy 
-1. Prepare and config file environment
-- Add env variable in node at: /etc/environment
+# How to run 
+1. Example:
 ```
-   PROXMOX_NW_CONFIG_HTTPS_PORT="8443"
-   PROXMOX_NW_CONFIG_HTTPS_CERT="/opt/c3/server.crt"
-   PROXMOX_NW_CONFIG_HTTPS_KEY="/opt/c3/server.key"
-   PROXMOX_NW_CONFIG_HTTP_PORT="10000"
-   PROXMOX_NW_CONFIG_GRPC_PORT="10010"
+   ./bin/app_mssql_server
 ```
 
-2. Run script deploy
+# Define APIs
+1. GetVendors
+- Get with specific name of vendor:
 ```
-   ./deploy_proxmox_nw_config.sh <IP> <Port>
-```
-
-Example:
-```
-   ./deploy_proxmox_nw_config.sh 172.17.10.21 22
+   curl --location --request GET 'http://localhost:20000/data_azure/v1/vendors/Australia Bike Retailer'
 ```
 
+- List all name of Vendors:
+```
+   curl --location --request GET 'http://localhost:20000/data_azure/v1/vendors/Name'
+```
+
+- List all Info of Vendors:
+```
+   curl --location --request GET 'http://localhost:20000/data_azure/v1/vendors/All'
+```
+
+2. GetShipMethod
+```
+   curl --location --request GET 'http://localhost:20000/data_azure/v1/ship_method'
+```
+
+3. GetPurchaseInfo by Id
+```
+   curl --location --request GET 'http://localhost:20000/data_azure/v1/purchase_order_info/100'
+```
+
+4. AddNewVendor
+curl --location --request POST 'http://localhost:20000/data_azure/v1/vendor' \
+--header 'Content-Type: text/plain' \
+--data-raw '{
+    "name":"Nhom7",
+    "credit_rating":"2",
+    "url_web":"nhom7.test.com"
+}'

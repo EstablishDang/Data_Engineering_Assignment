@@ -1,0 +1,171 @@
+syntax = "proto3";
+package mssql_server;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+option go_package = "mssql_server/proto/v1;mssqlserver";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "HTTP REST API Service"
+        version: "1.0"
+    };
+};
+
+service AppMssqlMgmtService {
+    rpc GetVendor(GetVendorReq) returns (ListVendorResp) {
+      option (google.api.http) = {
+        get: "/data_azure/v1/vendors/{type}"
+      };
+    }
+
+    rpc ListShipMethod(google.protobuf.Empty) returns (ListShipMethodResp) {
+      option (google.api.http) = {
+        get: "/data_azure/v1/ship_method"
+      };
+    }
+
+    rpc GetPurchaseOrderInfo(PurchaseOrderInfoReq) returns (PurchaseOrderInfo) {
+      option (google.api.http) = {
+        get: "/data_azure/v1/purchase_order_info/{id}"
+      };
+    }
+
+    rpc AddNewVendor(AddNewVendorReq) returns (google.protobuf.Empty) {
+      option (google.api.http) = {
+        post: "/data_azure/v1/vendor"
+        body : "*"
+      };
+    }
+}
+
+message AddNewVendorReq {
+  string name = 1;
+  string credit_rating = 2;
+  string url_web = 3;
+}
+
+message GetVendorReq {
+  string type = 1;
+}
+
+message PurchaseOrderInfoReq {
+  uint32 id = 1;
+}
+
+message ListVendorResp {
+  repeated VendorInfo vendor_info = 1;
+}
+
+message VendorInfo {
+  string name = 1;
+  string acc_number = 2;
+  string credit_rating = 3;
+  bool prefer_vendor = 4;
+  bool active = 5;
+}
+
+message ListShipMethodResp {
+  repeated ShipMethod ship_method = 1;
+}
+
+message ShipMethod {
+  string name = 1;
+  float ship_base = 2;
+  float ship_rate = 3;
+}
+
+message PurchaseOrderHeader {
+  uint32 PurchaseOrderID = 1;
+  uint32 RevisionNumber = 2;
+  uint32 Status = 3;
+  uint32 EmployeeID = 4;    // lookup more
+  uint32 VendorID = 5;      // lookup more
+  uint32 ShipMethodID = 6;  // lookup more
+  string OrderDate = 7;
+  string ShipDate = 8;
+  float SubTotal = 9;
+  float TaxAmt =10;
+  float Freight = 11;
+  float TotalDue = 12;
+  string ModifiedDate = 13;
+}
+
+message PurchaseOrderDetail { //list
+  uint32 PurchaseOrderDetailID = 1;
+  string DueDate = 2;
+  uint32 OrderQty = 3;
+  uint32 ProductID = 4; // list
+  uint32 UnitPrice = 5;
+  string LineTotal = 6;
+  string ReceivedQty = 7;
+  uint32 RejectedQty = 8;
+  uint32 StockedQty =9;
+  string ModifiedDate = 10;
+}
+
+message Product {
+  uint32 ProductID = 1;
+  string Name = 2;
+  string ProductNumber = 3;
+  bool MakeFlag = 4;
+  bool FinishedGoodsFlag = 5;
+  string Color = 6;
+  uint32 SafetyStockLevel = 7;
+  uint32 ReorderPoint = 8;
+  uint32 StandardCost = 9;
+  uint32 ListPrice = 10;
+  string Size = 11;
+  string SizeUnitMeasureCode = 12;
+  string WeightUnitMeasureCode = 13;
+  uint32 Weight = 14;
+  uint32 DaysToManufacture = 15;
+  string ProductLine = 16;
+  string Class = 17;
+  string Style = 18;
+  uint32 ProductSubcategoryID = 19;
+  uint32 ProductModelID = 20;
+  string SellStartDate = 21;
+  string SellEndDate = 22;
+  string DiscontinuedDate = 23;
+  string rowguid = 24;
+  string ModifiedDate = 25;
+}
+
+message ProductVendor { //list
+  uint32 ProductID = 1;
+  uint32 BusinessEntityID = 2;
+  uint32 AverageLeadTime = 3;
+  uint32 StandardPrice = 4;
+  uint32 LastReceiptCost = 5;
+  string LastReceiptDate = 6;
+  uint32 MinOrderQty = 7;
+  uint32 MaxOrderQty = 8;
+  uint32 OnOrderQty = 9;
+  string UnitMeasureCode = 10;
+  string ModifiedDate = 11;
+}
+
+message Employee {
+  string JobTitle = 1;
+  string Gender = 2;
+  string DepartmentName = 3;
+  string GroupName = 4;
+  string Shift = 5;
+}
+
+message PurchaseOrderInfo {
+  Employee employee_info = 1;
+  VendorInfo vendor_info = 2;
+  ShipMethod ship_method = 3;
+
+  string Status = 4;
+  string OrderDate = 5;
+  string ShipDate = 6;
+  float SubTotal = 7;
+  float TaxAmt =8;
+  float Freight = 9;
+  float TotalDue = 10;
+  string ModifiedDate = 11;
+}
